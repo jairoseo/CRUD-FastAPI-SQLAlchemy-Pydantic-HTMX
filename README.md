@@ -7,7 +7,7 @@
 1. Run the server-side uvicorn app in one terminal window:
 
     ```sh
-    $ cd server
+    $ cd project_folder
     $ python -m venv venv
     $ source venv/bin/activate
     (venv)$ pip install -r requirements.txt
