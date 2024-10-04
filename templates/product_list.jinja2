@@ -1,0 +1,15 @@
+<ul>
+    {% for product in products %}
+        <li>
+            {{ product.name }}
+            <button
+            hx-get="/b/product/{{product.id}}"
+            hx-swap="innerHTML"
+            hx-target="#product_view"
+            >
+                Ver Producto
+            </button>
+        </li>
+    {% endfor %}
+</ul>
+

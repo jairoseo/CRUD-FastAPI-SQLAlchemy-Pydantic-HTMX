@@ -1,0 +1,29 @@
+ID : {{ product.id }} <br />
+Nombre : {{ product.name }} <br />
+Fecha creacion : {{ product.creation_date }} <br />
+Cantidad : {{ product.amount }} <br />
+Precio : {{ product.price }} <br />
+Cantidad : {{ product.description }}<br />
+
+<button
+        hx-get="/b/edit_product/{{ product.id }}"
+        hx-swap="innerHTML"
+        hx-target="#product_view"
+    >
+        Editar
+</button>
+-
+<button hx-delete="/product/{{ product.id }}" hx-swap="none" hx-confirm="Esta seguro de borrar el producto?" hx-on="htmx:beforeRequest: recargar()">
+    Borrar
+</button>
+-
+<button onclick="document.getElementById('product_view').innerHTML = ''">
+    Cancelar
+</button>
+
+<script>
+    function recargar(){
+        htmx.ajax('GET', '/b/products', {target:'#products_list', swap:'innerHTML'});
+        document.getElementById('product_view').innerHTML = '';        
+    }
+</script>

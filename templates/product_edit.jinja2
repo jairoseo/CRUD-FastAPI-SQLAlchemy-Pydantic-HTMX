@@ -1,0 +1,51 @@
+<form id="productForm" hx-put="/product/{{product.id}}" hx-ext="submitjson" hx-swap="none">
+    <div>
+        <label>Nombre</label>
+        <input type="text" name="name" value="{{product.name}}">
+    </div>
+    <div class="form-group">
+        <label>Fecha creacion</label>
+        <input type="text" name="creation_date" value="{{product.creation_date}}">
+    </div>
+    <div class="form-group">
+        <label>Cantidad</label>
+        <input type="text" name="amount" value="{{product.amount}}">
+    </div>
+    <div class="form-group">
+        <label>Precio</label>
+        <input type="text" name="price" value="{{product.price}}">
+    </div>
+    <div class="form-group">
+        <label>Descripcion</label>
+        <input type="text" name="description" value="{{product.description}}">
+    </div>
+    <button class="btn">Enviar</button>    
+</form>
+    <button class="btn" hx-get="/b/product/{{product.id}}" hx-target="#product_view" swap:'innerHTML'>Cancel</button>
+    
+
+<script>
+    htmx.defineExtension('submitjson', {
+        onEvent: function (name, evt) {
+            if (name === "htmx:configRequest") {
+                evt.detail.headers['Content-Type'] = "application/json"
+            }
+    },
+        encodeParameters: function(xhr, parameters, elt) {
+            const body = {};  // Inicializa el cuerpo JSON
+            Object.entries(parameters).forEach(([key, value]) => {
+                body[key] = value;
+            });
+            return JSON.stringify(body);
+    }
+    });
+    document.getElementById('productForm').addEventListener('htmx:afterRequest', function(evt) {
+        if (evt.detail.successful) {
+            htmx.ajax('GET', '/b/products', {target:'#products_list', swap:'innerHTML'});
+            htmx.ajax('GET', '/b/product/{{product.id}}', {target:'#product_view', swap:'innerHTML'});
+        } else {
+            console.error('Error en la solicitud:', evt.detail.xhr.status);
+            alert("Error en la solicitud");
+        }
+    });
+</script>

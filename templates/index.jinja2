@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <button
+            hx-get="/b/add_product/"
+            hx-swap="innerHTML"
+            hx-target="#add_product"
+            >
+            Agregar Producto
+    </button>
+    <div id="add_product"></div>
+    <div id="products_list"></div>
+    <div id="product_view"></div>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script>
+        htmx.ajax('GET', '/b/products', {target:'#products_list', swap:'innerHTML'});
+    </script>
+</body>
+</html>
